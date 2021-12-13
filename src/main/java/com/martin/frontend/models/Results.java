@@ -1,10 +1,10 @@
 package com.martin.frontend.models;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
+import java.util.TimeZone;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,8 +36,10 @@ public class Results {
 
 	/**
 	 * Converts All of the timestamps to EST
+	 * 
+	 * @throws ParseException
 	 */
-	public void convertTimestampsToEST() {
+	public void convertTimestampsToEST() throws ParseException {
 		this.time = convertToEST(this.time);
 		this.system.setSunrise(convertToEST(this.system.getSunrise()));
 		this.system.setSunset(convertToEST(this.system.getSunset()));
@@ -49,11 +51,14 @@ public class Results {
 	 * 
 	 * @param timestamp
 	 * @return
+	 * @throws ParseException
 	 */
-	private long convertToEST(long timestamp) {
-		LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.of("US/Eastern"));
+	private long convertToEST(long timestamp) throws ParseException {
 
-		return localDateTime.toInstant(ZoneOffset.ofHours(0)).toEpochMilli();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy hh:mm aa");
+		sdf.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+
+		return sdf.parse(sdf.format(new Date(timestamp))).getTime();
 	}
 
 }
