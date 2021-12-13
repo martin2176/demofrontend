@@ -14,6 +14,8 @@ public class Temperature {
 	private @JsonProperty("feels_like") long feelsLike;
 	private @JsonProperty("temp_min") long min;
 	private @JsonProperty("temp_max") long max;
+	private @JsonProperty("pressure") long pressure;
+	private @JsonProperty("humidity") long humidity;
 	private long temp;
 
 }
