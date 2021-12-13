@@ -1,7 +1,5 @@
 package com.martin.frontend.controllers;
 
-import java.text.ParseException;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,12 +36,6 @@ public class FrontEndController {
 		ObjectMapper mapper = new ObjectMapper();
 
 		Results result = restTemplate.getForObject(uri, Results.class);
-		try {
-			result.convertTimestampsToEST();
-		} catch (ParseException e1) {
-			log.error("Error Converting Timestamps to EST: ", e1.getMessage());
-			e1.printStackTrace();
-		}
 
 		String jsonResults = null;
 
